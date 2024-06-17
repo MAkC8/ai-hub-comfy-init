@@ -148,7 +148,7 @@ function build_extra_download() {
 
 function build_ai_hub_models_configuration() {
     printf "Start AiHub configuring ..."
-    apt-get install -y axel
+    sudo apt-get install -y axel
     comfy_path="/opt/ComfyUI"
     mkdir -p $comfy_path/models
     mkdir -p $comfy_path/models/checkpoints
@@ -159,8 +159,8 @@ function build_ai_hub_models_configuration() {
     mkdir -p $comfy_path/models/ipadapter   
     mkdir -p $comfy_path/models/upscale_models
 
-    axel -n 8 -o $comfy_path/models/checkpoints/sd15_real.safetensors "https://civitai.com/api/download/models/501240?type=Model&format=SafeTensor&size=pruned&fp=fp16"
-    axel -n 8 -o $comfy_path/models/checkpoints/JuggernautXL.safetensors "https://civitai.com/api/download/models/471120?type=Model&format=SafeTensor&size=full&fp=fp16&token=dde65e385e7f360d4a29055d34bbac25"
+    wget -qnc --content-disposition --show-progress -e dotbytes="${3:-4M}" -O $comfy_path/models/checkpoints/sd15_real.safetensors "https://civitai.com/api/download/models/501240?type=Model&format=SafeTensor&size=pruned&fp=fp16"
+    wget -qnc --content-disposition --show-progress -e dotbytes="${3:-4M}" -O $comfy_path/models/checkpoints/JuggernautXL.safetensors "https://civitai.com/api/download/models/471120?type=Model&format=SafeTensor&size=full&fp=fp16&token=dde65e385e7f360d4a29055d34bbac25"
     # wget -O $comfy_path/models/clip_vision/clip_vision_xl.safetensors  "https://huggingface.co/h94/IP-Adapter/resolve/main/models/image_encoder/model.safetensors"
     # wget -O $comfy_path/models/ipadapter/ip_adapter_plus_sdxl.safetensors "https://huggingface.co/h94/IP-Adapter/resolve/main/sdxl_models/ip-adapter-plus_sdxl_vit-h.safetensors"
     # wget -O $comfy_path/models/style_models/coadapter-style-sd15v1.pth "https://huggingface.co/TencentARC/T2I-Adapter/resolve/main/models/coadapter-style-sd15v1.pth"
