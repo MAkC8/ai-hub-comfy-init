@@ -169,7 +169,7 @@ function build_ai_hub_models_configuration() {
     mkdir -p $comfy_path/models/checkpoints
     mkdir -p $comfy_path/models/clip_vision
     mkdir -p $comfy_path/models/ipadapter
-    mkdir -p $comfy_path/models/loras/
+    mkdir -p $comfy_path/models/loras
     mkdir -p $comfy_path/models/style_models
     mkdir -p $comfy_path/models/ipadapter   
     mkdir -p $comfy_path/models/upscale_models
