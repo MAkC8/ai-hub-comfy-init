@@ -23,6 +23,8 @@ NODES=(
     "https://github.com/bronkula/comfyui-fitsize"
     "https://github.com/pythongosssss/ComfyUI-WD14-Tagger"
     "https://github.com/SLAPaper/ComfyUI-Image-Selector"
+    "https://github.com/kijai/ComfyUI-KJNodes"
+    "https://github.com/11cafe/comfyui-workspace-manager"
 )
 
 CHECKPOINT_MODELS=(
@@ -174,13 +176,14 @@ function build_ai_hub_models_configuration() {
     mkdir -p $comfy_path/models/ipadapter   
     mkdir -p $comfy_path/models/upscale_models
 
-    axel -n 8 -o $comfy_path/models/checkpoints/sd15_real.safetensors "https://civitai.com/api/download/models/501240?type=Model&format=SafeTensor&size=pruned&fp=fp16"
+    axel -n 8 -o $comfy_path/models/checkpoints/sd15_realistic.safetensors "https://civitai.com/api/download/models/501240?type=Model&format=SafeTensor&size=pruned&fp=fp16"
+    axel -n 8 -o $comfy_path/models/checkpoints/dreamShaperXL.safetensors "https://civitai.com/api/download/models/351306?type=Model&format=SafeTensor&size=full&fp=fp16"
+    axel -n 8 -o $comfy_path/models/checkpoints/RealVisXL.safetensors "https://civitai.com/api/download/models/361593?type=Model&format=SafeTensor&size=pruned&fp=fp16"
     wget -O $comfy_path/models/clip_vision/clip_vision_xl.safetensors  "https://huggingface.co/h94/IP-Adapter/resolve/main/models/image_encoder/model.safetensors" &
     wget -O $comfy_path/models/ipadapter/ip_adapter_plus_sdxl.safetensors "https://huggingface.co/h94/IP-Adapter/resolve/main/sdxl_models/ip-adapter-plus_sdxl_vit-h.safetensors" &
     wget -O $comfy_path/models/style_models/coadapter-style-sd15v1.pth "https://huggingface.co/TencentARC/T2I-Adapter/resolve/main/models/coadapter-style-sd15v1.pth"
     axel -n 8 -o $comfy_path/models/loras/detail_tweaker_xl.safetensors "https://civitai.com/api/download/models/135867?type=Model&format=SafeTensor"
     wget -O $comfy_path/models/controlnet/diffusers_xl_canny_full.safetensors "https://huggingface.co/lllyasviel/sd_control_collection/resolve/main/diffusers_xl_canny_full.safetensors" 
-    wget -O $comfy_path/models/controlnet/diffusers_xl_zoe_depth.safetensors "https://huggingface.co/diffusers/controlnet-zoe-depth-sdxl-1.0/resolve/main/diffusion_pytorch_model.safetensors" &
     wget -O $comfy_path/models/controlnet/diffusion_xl_depth_fp16.safetensors "https://huggingface.co/diffusers/controlnet-depth-sdxl-1.0/resolve/main/diffusion_pytorch_model.fp16.safetensors" 
     wget -O $comfy_path/models/controlnet/sdxl_segmentation_ade20k_controlnet.safetensors "https://huggingface.co/abovzv/sdxl_segmentation_controlnet_ade20k/resolve/main/sdxl_segmentation_ade20k_controlnet.safetensors" &
     wget -O $comfy_path/models/ipadapter/ip-adapter-plus_sd15.safetensors "https://huggingface.co/h94/IP-Adapter/resolve/main/models/ip-adapter-plus_sd15.safetensors" &
