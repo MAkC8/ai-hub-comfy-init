@@ -50,7 +50,7 @@ git clone https://github.com/melMass/comfy_mtb.git $comfy_path/custom_nodes/comf
 cd $comfy_path/custom_nodes/comfy_mtb && pip install -r requirements.txt && cd ../../..
 git clone https://github.com/pythongosssss/ComfyUI-Custom-Scripts.git $comfy_path/custom_nodes/ComfyUI_Custom_Scripts
 
-apt-get install -y axel 
+sudo apt-get install -y axel 
 axel -n 8 -o $comfy_path/models/checkpoints/sd15_real.safetensors "https://civitai.com/api/download/models/501240?type=Model&format=SafeTensor&size=pruned&fp=fp16"
 # wget -O $comfy_path/models/clip_vision/clip_vision_xl.safetensors  "https://huggingface.co/h94/IP-Adapter/resolve/main/models/image_encoder/model.safetensors"
 # mkdir -p $comfy_path/models/ipadapter && wget -O $comfy_path/models/ipadapter/ip_adapter_plus_sdxl.safetensors "https://huggingface.co/h94/IP-Adapter/resolve/main/sdxl_models/ip-adapter-plus_sdxl_vit-h.safetensors"
@@ -92,5 +92,5 @@ axel -n 8 -o $comfy_path/models/checkpoints/sd15_real.safetensors "https://civit
 # wget -O $comfy_path/models/animatediff_motion_lora/v2_lora_TiltDown.ckpt "https://huggingface.co/guoyww/animatediff/resolve/cd71ae134a27ec6008b968d6419952b0c0494cf2/v2_lora_TiltDown.ckpt" &
 # wget -O $comfy_path/models/controlnet/v3_sd15_sparsectrl_rgb.ckpt "https://huggingface.co/guoyww/animatediff/resolve/main/v3_sd15_sparsectrl_rgb.ckpt"
 
-lsof -t -i :8188 | xargs kill -9
+sudo lsof -t -i :8188 | xargs kill -9
 cd $comfy_path && python main.py &
