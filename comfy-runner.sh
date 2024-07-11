@@ -1,4 +1,7 @@
-sudo apt update && sudo apt install -y software-properties-common && sudo apt update && sudo apt install -y python3.9 python3.9-venv python3.9-distutils
+# bash <(curl -s https://raw.githubusercontent.com/MAkC8/ai-hub-comfy-init/main/comfy-runner.sh)
+sudo apt update && sudo apt install -y software-properties-common && sudo add-apt-repository ppa:deadsnakes/ppa -y
+sudo apt update && sudo apt install -y software-properties-common
+sudo apt update && sudo apt install -y python3.9 python3.9-venv python3.9-distutils
 curl -sS https://bootstrap.pypa.io/get-pip.py | sudo python3.9
 sudo ln -s /usr/bin/python3.9 /usr/bin/python
 pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu121
