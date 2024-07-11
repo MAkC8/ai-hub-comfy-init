@@ -51,10 +51,7 @@ cd $comfy_path/custom_nodes/comfy_mtb && pip install -r requirements.txt && cd .
 git clone https://github.com/pythongosssss/ComfyUI-Custom-Scripts.git $comfy_path/custom_nodes/ComfyUI_Custom_Scripts
 
 apt-get install axel 
-axel -n 8 -o $comfy_path/models/checkpoints/sd_real.safetensors "https://civitai.com/api/download/models/501240?type=Model&format=SafeTensor&size=pruned&fp=fp16"
-axel -n 8 -o "$comfy_path/models/checkpoints/JuggernautXL.safetensors" "https://civitai.com/api/download/models/471120?type=Model&format=SafeTensor&size=full&fp=fp16&token=dde65e385e7f360d4a29055d34bbac25"
-wget --header="Authorization: Bearer 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" -O $comfy_path/models/checkpoints/sd3.safetensors "https://huggingface.co/stabilityai/stable-diffusion-3-medium/resolve/main/sd3_medium.safetensors"
-
+axel -n 8 -o $comfy_path/models/checkpoints/sd15_real.safetensors "https://civitai.com/api/download/models/501240?type=Model&format=SafeTensor&size=pruned&fp=fp16"
 wget -O $comfy_path/models/clip_vision/clip_vision_xl.safetensors  "https://huggingface.co/h94/IP-Adapter/resolve/main/models/image_encoder/model.safetensors"
 mkdir -p $comfy_path/models/ipadapter && wget -O $comfy_path/models/ipadapter/ip_adapter_plus_sdxl.safetensors "https://huggingface.co/h94/IP-Adapter/resolve/main/sdxl_models/ip-adapter-plus_sdxl_vit-h.safetensors"
 
