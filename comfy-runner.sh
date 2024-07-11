@@ -56,9 +56,6 @@ wget -O $comfy_path/models/clip_vision/clip_vision_xl.safetensors  "https://hugg
 mkdir -p $comfy_path/models/ipadapter && wget -O $comfy_path/models/ipadapter/ip_adapter_plus_sdxl.safetensors "https://huggingface.co/h94/IP-Adapter/resolve/main/sdxl_models/ip-adapter-plus_sdxl_vit-h.safetensors"
 
 wget -O $comfy_path/models/style_models/coadapter-style-sd15v1.pth "https://huggingface.co/TencentARC/T2I-Adapter/resolve/main/models/coadapter-style-sd15v1.pth"
-axel -n 8 -o $comfy_path/models/checkpoints/InteriorDesignSuperMix.safetensors "https://civitai.com/api/download/models/93152?type=Model&format=SafeTensor&size=full&fp=fp16"
-axel -n 8 -o $comfy_path/models/checkpoints/Interior2.safetensors "https://civitai.com/api/download/models/138737?type=Model&format=SafeTensor&size=full&fp=fp16"
-axel -n 8 -o $comfy_path/models/loras/interior1.safetensors "https://civitai.com/api/download/models/164564?type=Model&format=SafeTensor"
 axel -n 8 -o $comfy_path/models/loras/detail_tweaker_xl.safetensors "https://civitai.com/api/download/models/135867?type=Model&format=SafeTensor"
 wget -O $comfy_path/models/controlnet/diffusers_xl_canny_full.safetensors "https://huggingface.co/lllyasviel/sd_control_collection/resolve/main/diffusers_xl_canny_full.safetensors"
 wget -O $comfy_path/models/controlnet/diffusers_xl_zoe_depth.safetensors "https://huggingface.co/diffusers/controlnet-zoe-depth-sdxl-1.0/resolve/main/diffusion_pytorch_model.safetensors"
