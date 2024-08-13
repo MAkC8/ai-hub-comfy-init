@@ -70,6 +70,7 @@ if ! [ -f $installation_completed ]; then
     sudo lsof -t -i :8188 | xargs kill -9
     cd $comfy_path && python main.py --listen 0.0.0.0 &
 
+    wget -O $comfy_path/models/checkpoints/JuggernautXL.safetensors "https://huggingface.co/RunDiffusion/Juggernaut-XL-v9/resolve/main/Juggernaut-XL_v9_RunDiffusionPhoto_v2.safetensors"
     wget -O $comfy_path/models/clip_vision/clip_vision_xl.safetensors  "https://huggingface.co/h94/IP-Adapter/resolve/main/models/image_encoder/model.safetensors"
     mkdir -p $comfy_path/models/ipadapter && wget -O $comfy_path/models/ipadapter/ip_adapter_plus_sdxl.safetensors "https://huggingface.co/h94/IP-Adapter/resolve/main/sdxl_models/ip-adapter-plus_sdxl_vit-h.safetensors"
 
