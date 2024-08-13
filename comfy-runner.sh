@@ -11,6 +11,12 @@ if ! [ -f $installation_completed ]; then
     curl -sS https://bootstrap.pypa.io/get-pip.py | sudo python3.9
     sudo ln -s /usr/bin/python3.9 /usr/bin/python
     pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu121
+    sudo apt-get install -y python3-dev
+    pip install --upgrade pip setuptools wheel
+    dpkg -L python3-dev | grep Python.h
+    sudo apt-get install -y python3.9-dev
+    export CFLAGS="-I/usr/include/python3.9"
+    pip install insightface
 
     rm -rf $comfy_path
 
@@ -85,5 +91,5 @@ if ! [ -f $installation_completed ]; then
     touch $installation_completed
     echo "Installation completed"
 else
-    echo "Installation completed."
+    echo "INstallation completed."
 fi
