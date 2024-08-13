@@ -93,5 +93,5 @@ if ! [ -f $installation_completed ]; then
     touch $installation_completed
     echo "Installation completed"
 else
-    echo "INstallation completed."
+    echo "Installation completed."
 fi
