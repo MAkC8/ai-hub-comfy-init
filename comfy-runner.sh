@@ -1,3 +1,5 @@
+# bash <(curl -s https://raw.githubusercontent.com/MAkC8/ai-hub-comfy-init/main/comfy-runner.sh)
+
 comfy_path="/root/ComfyUI"
 installation_completed="$comfy_path/installation_completed.txt"
 
@@ -10,7 +12,7 @@ if ! [ -f $installation_completed ]; then
     sudo ln -s /usr/bin/python3.9 /usr/bin/python
     pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu121
     sudo apt-get update
-    sudo apt-get install -y build-essential cmake libgl1-mesa-glx python3-dev axel lsof
+    sudo apt-get install -y build-essential cmake libgl1-mesa-glx python3-dev axel lsof unzip
     pip install --upgrade pip setuptools wheel
     dpkg -L python3-dev | grep Python.h
     sudo apt-get install -y python3.9-dev
@@ -64,17 +66,7 @@ if ! [ -f $installation_completed ]; then
 
     git clone https://github.com/cubiq/ComfyUI_InstantID.git $comfy_path/custom_nodes/ComfyUI_InstantID
     cd $comfy_path/custom_nodes/ComfyUI_InstantID && pip install -r requirements.txt && cd ../../..
-    mkdir -p $comfy_path/models/instantid
-    wget -O $comfy_path/models/instantid/ip-adapter.bin "https://huggingface.co/InstantX/InstantID/resolve/main/ip-adapter.bin"
-    wget -O $comfy_path/models/controlnet/instant_id_control_net.safetensors "https://huggingface.co/InstantX/InstantID/resolve/main/ControlNetModel/diffusion_pytorch_model.safetensors"
-
-    mkdir -p $comfy_path/models/insightface/models/
-    wget -O $comfy_path/models/insightface/models/antelopev2.zip https://huggingface.co/MonsterMMORPG/tools/resolve/main/antelopev2.zip
-    sudo apt-get install -y unzip
-    unzip $comfy_path/models/insightface/models/antelopev2.zip
-    mv ./antelopev2 $comfy_path/models/insightface/models/
-    rm $comfy_path/models/insightface/models/antelopev2.zip
-
+    
     axel -n 8 -o $comfy_path/models/checkpoints/sd15_real.safetensors "https://civitai.com/api/download/models/501240?type=Model&format=SafeTensor&size=pruned&fp=fp16"
 
     sudo lsof -t -i :8188 | xargs kill -9
@@ -82,6 +74,15 @@ if ! [ -f $installation_completed ]; then
 
     wget -O $comfy_path/models/checkpoints/JuggernautXL.safetensors "https://huggingface.co/RunDiffusion/Juggernaut-XL-v9/resolve/main/Juggernaut-XL_v9_RunDiffusionPhoto_v2.safetensors"
     wget -O $comfy_path/models/clip_vision/clip_vision_xl.safetensors  "https://huggingface.co/h94/IP-Adapter/resolve/main/models/image_encoder/model.safetensors"
+
+    mkdir -p $comfy_path/models/instantid && wget -O $comfy_path/models/instantid/ip-adapter.bin "https://huggingface.co/InstantX/InstantID/resolve/main/ip-adapter.bin"
+    wget -O $comfy_path/models/controlnet/instant_id_control_net.safetensors "https://huggingface.co/InstantX/InstantID/resolve/main/ControlNetModel/diffusion_pytorch_model.safetensors"
+
+    mkdir -p $comfy_path/models/insightface/models/ && wget -O $comfy_path/models/insightface/models/antelopev2.zip https://huggingface.co/MonsterMMORPG/tools/resolve/main/antelopev2.zip
+    unzip $comfy_path/models/insightface/models/antelopev2.zip
+    mv ./antelopev2 $comfy_path/models/insightface/models/
+    rm $comfy_path/models/insightface/models/antelopev2.zip
+
     mkdir -p $comfy_path/models/ipadapter && wget -O $comfy_path/models/ipadapter/ip_adapter_plus_sdxl.safetensors "https://huggingface.co/h94/IP-Adapter/resolve/main/sdxl_models/ip-adapter-plus_sdxl_vit-h.safetensors"
 
     wget -O $comfy_path/models/style_models/coadapter-style-sd15v1.pth "https://huggingface.co/TencentARC/T2I-Adapter/resolve/main/models/coadapter-style-sd15v1.pth" &
