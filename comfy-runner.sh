@@ -1,5 +1,3 @@
-# bash <(curl -s https://raw.githubusercontent.com/MAkC8/ai-hub-comfy-init/main/comfy-runner.sh)
-
 comfy_path="/root/ComfyUI"
 installation_completed="$comfy_path/installation_completed.txt"
 
@@ -12,7 +10,7 @@ if ! [ -f $installation_completed ]; then
     sudo ln -s /usr/bin/python3.9 /usr/bin/python
     pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu121
     sudo apt-get update
-    sudo apt-get install -y build-essential cmake libgl1-mesa-glx python3-dev
+    sudo apt-get install -y build-essential cmake libgl1-mesa-glx python3-dev axel lsof
     pip install --upgrade pip setuptools wheel
     dpkg -L python3-dev | grep Python.h
     sudo apt-get install -y python3.9-dev
@@ -64,7 +62,18 @@ if ! [ -f $installation_completed ]; then
     cd $comfy_path/custom_nodes/ComfyUI-Frame-Interpolation && python install.py && cd ../../..
     git clone https://github.com/pythongosssss/ComfyUI-Custom-Scripts.git $comfy_path/custom_nodes/ComfyUI_Custom_Scripts
 
-    sudo apt-get install -y axel lsof libgl1-mesa-glx
+    git clone https://github.com/cubiq/ComfyUI_InstantID.git $comfy_path/custom_nodes/ComfyUI_InstantID
+    cd $comfy_path/custom_nodes/ComfyUI_InstantID && pip install -r requirements.txt && cd ../../..
+    mkdir -p $comfy_path/models/instantid
+    wget -O $comfy_path/models/instantid/ip-adapter.bin "https://huggingface.co/InstantX/InstantID/resolve/main/ip-adapter.bin"
+    wget -O $comfy_path/models/controlnet/instant_id_control_net.safetensors "https://huggingface.co/InstantX/InstantID/resolve/main/ControlNetModel/diffusion_pytorch_model.safetensors"
+
+    mkdir -p $comfy_path/models/insightface/models/
+    wget -O $comfy_path/models/insightface/models/antelopev2.zip https://huggingface.co/MonsterMMORPG/tools/resolve/main/antelopev2.zip
+    sudo apt-get install -y unzip
+    unzip $comfy_path/models/insightface/models/antelopev2.zip
+    mv ./antelopev2 $comfy_path/models/insightface/models/
+    rm $comfy_path/models/insightface/models/antelopev2.zip
 
     axel -n 8 -o $comfy_path/models/checkpoints/sd15_real.safetensors "https://civitai.com/api/download/models/501240?type=Model&format=SafeTensor&size=pruned&fp=fp16"
 
