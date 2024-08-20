@@ -3,7 +3,11 @@
 comfy_path="/root/ComfyUI"
 installation_completed="$comfy_path/installation_completed.txt"
 
-if ! [ -f $installation_completed ]; then
+if [ -f $installation_completed ]; then
+    sudo lsof -t -i :8188 | xargs kill -9
+    cd $comfy_path && python main.py --listen 0.0.0.0 &
+    echo "Installation completed."
+else
     sudo apt update && sudo apt install -y software-properties-common
     sudo add-apt-repository ppa:deadsnakes/ppa -y
     sudo apt update && sudo apt install -y software-properties-common
@@ -64,6 +68,25 @@ if ! [ -f $installation_completed ]; then
     cd $comfy_path/custom_nodes/ComfyUI-Frame-Interpolation && python install.py && cd ../../..
     git clone https://github.com/pythongosssss/ComfyUI-Custom-Scripts.git $comfy_path/custom_nodes/ComfyUI_Custom_Scripts
 
+    ### CatVton
+    cd $comfy_path
+    wget -O "./ComfyUI-CatVTON.zip" "https://github.com/MAkC8/ai-hub-comfy-init/blob/main/ComfyUI-CatVTON.zip?raw=true"
+    rm -rf ./ComfyUI-CatVTON $comfy_path/custom_nodes/ComfyUI-CatVTON 
+    unzip ./ComfyUI-CatVTON.zip
+    mv ./ComfyUI-CatVTON $comfy_path/custom_nodes/
+    rm ./ComfyUI-CatVTON.zip
+
+    pip install diffusers accelerate
+    mkdir -p $comfy_path/custom_nodes/ComfyUI-CatVTON/main-git
+    cd $comfy_path/custom_nodes/ComfyUI-CatVTON && python -m venv .venv && source .venv/bin/activate && cd $comfy_path/..
+    git clone https://github.com/Zheng-Chong/CatVTON.git $comfy_path/custom_nodes/ComfyUI-CatVTON/main-git/CatVTON
+    cd $comfy_path/custom_nodes/ComfyUI-CatVTON/main-git/CatVTON && pip install -r requirements.txt && cd $comfy_path/..
+    deactivate
+    git clone https://github.com/facebookresearch/detectron2.git $comfy_path/custom_nodes/ComfyUI-CatVTON/main-git/detectron2
+    cd $comfy_path/custom_nodes/ComfyUI-CatVTON/main-git/detectron2 && python -m pip install . && cd projects/DensePose && pip install . && cd $comfy_path/..
+    rm -rf $comfy_path/custom_nodes/ComfyUI-CatVTON/main-git
+    cd $comfy_path/..
+    ###---------
     git clone https://github.com/cubiq/ComfyUI_InstantID.git $comfy_path/custom_nodes/ComfyUI_InstantID
     cd $comfy_path/custom_nodes/ComfyUI_InstantID && pip install -r requirements.txt && cd ../../..
     
@@ -91,7 +114,8 @@ if ! [ -f $installation_completed ]; then
     wget -O $comfy_path/models/controlnet/control_sd15_inpaint_depth_hand_fp16.safetensors  "https://huggingface.co/hr16/ControlNet-HandRefiner-pruned/resolve/main/control_sd15_inpaint_depth_hand_fp16.safetensors" &
     wget -O $comfy_path/models/controlnet/control_v11p_sd15_seg.safetensors "https://huggingface.co/lllyasviel/control_v11p_sd15_seg/resolve/main/diffusion_pytorch_model.safetensors"
     wget -O $comfy_path/models/controlnet/control_v11p_sd15_canny.safetensors "https://huggingface.co/lllyasviel/control_v11p_sd15_canny/resolve/main/diffusion_pytorch_model.safetensors" &
-    wget -O $comfy_path/models/controlnet/control_v11f1e_sd15_tile.bin "https://huggingface.co/lllyasviel/control_v11f1e_sd15_tile/resolve/main/diffusion_pytorch_model.bin"
+    wget -O $comfy_path/models/controlnet/control_v11p_sd15_lineart.safetensors "https://huggingface.co/lllyasviel/control_v11p_sd15_lineart/resolve/main/diffusion_pytorch_model.safetensors"
+    wget -O $comfy_path/models/controlnet/control_v11f1e_sd15_tile.bin "https://huggingface.co/lllyasviel/control_v11f1e_sd15_tile/resolve/main/diffusion_pytorch_model.bin" &
     wget -O $comfy_path/models/upscale_models/4x-UltraSharp.pth "https://huggingface.co/lokCX/4x-Ultrasharp/resolve/main/4x-UltraSharp.pth"
 
     wget -O $comfy_path/models/controlnet/control_v11p_sd15_openpose.safetensors "https://huggingface.co/lllyasviel/control_v11p_sd15_openpose/resolve/main/diffusion_pytorch_model.safetensors"
@@ -102,10 +126,55 @@ if ! [ -f $installation_completed ]; then
     wget -O $comfy_path/models/controlnet/diffusion_xl_depth_fp16.safetensors "https://huggingface.co/diffusers/controlnet-depth-sdxl-1.0/resolve/main/diffusion_pytorch_model.fp16.safetensors"
     wget -O $comfy_path/models/controlnet/sdxl_segmentation_ade20k_controlnet.safetensors "https://huggingface.co/abovzv/sdxl_segmentation_controlnet_ade20k/resolve/main/sdxl_segmentation_ade20k_controlnet.safetensors" &
 
+    ### AnimateAnyone
+    # git clone https://github.com/MrForExample/ComfyUI-AnimateAnyone-Evolved.git $comfy_path/custom_nodes/ComfyUI-AnimateAnyone-Evolved
+    # cd $comfy_path/custom_nodes/ComfyUI-AnimateAnyone-Evolved && pip install -r requirements.txt && cd ../../..
+    # wget -O $comfy_path/custom_nodes/ComfyUI-AnimateAnyone-Evolved/pretrained_weights/denoising_unet.pth "https://huggingface.co/patrolli/AnimateAnyone/resolve/main/denoising_unet.pth" &
+    # wget -O $comfy_path/custom_nodes/ComfyUI-AnimateAnyone-Evolved/pretrained_weights/motion_module.pth "https://huggingface.co/patrolli/AnimateAnyone/resolve/main/motion_module.pth"
+    # wget -O $comfy_path/custom_nodes/ComfyUI-AnimateAnyone-Evolved/pretrained_weights/pose_guider.pth "https://huggingface.co/patrolli/AnimateAnyone/resolve/main/pose_guider.pth" &
+    # wget -O $comfy_path/custom_nodes/ComfyUI-AnimateAnyone-Evolved/pretrained_weights/reference_unet.pth "https://huggingface.co/patrolli/AnimateAnyone/resolve/main/reference_unet.pth"
+    # wget -O $comfy_path/custom_nodes/ComfyUI-AnimateAnyone-Evolved/pretrained_weights/stable-diffusion-v1-5/unet/diffusion_pytorch_model.bin "https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/unet/diffusion_pytorch_model.bin" &
+    # wget -O $comfy_path/models/vae/diffusion_pytorch_model.bin "https://huggingface.co/stabilityai/sd-vae-ft-mse/resolve/main/diffusion_pytorch_model.bin"
+    # wget -O $comfy_path/models/clip_vision/pytorch_model.bin "https://huggingface.co/lambdalabs/sd-image-variations-diffusers/resolve/main/image_encoder/pytorch_model.bin"
+
+    # ### AnimatedDiff
+    # git clone https://github.com/Kosinkadink/ComfyUI-AnimateDiff-Evolved.git $comfy_path/custom_nodes/ComfyUI-AnimateDiff-Evolved
+    # mkdir $comfy_path/models/animatediff_models
+    # wget -O $comfy_path/models/animatediff_models/v3_sd15_mm.ckpt "https://huggingface.co/guoyww/animatediff/resolve/cd71ae134a27ec6008b968d6419952b0c0494cf2/v3_sd15_mm.ckpt"
+    # wget -O $comfy_path/models/animatediff_models/mm_sd_v15_v2.ckpt "https://huggingface.co/guoyww/animatediff/resolve/cd71ae134a27ec6008b968d6419952b0c0494cf2/mm_sd_v15_v2.ckpt" &
+    # wget -O $comfy_path/models/animatediff_models/mm-Stabilized_high.pth "https://huggingface.co/manshoety/AD_Stabilized_Motion/resolve/main/mm-Stabilized_high.pth"
+    # wget -O $comfy_path/models/animatediff_models/mm-p_0.75.pth "https://huggingface.co/manshoety/beta_testing_models/resolve/main/mm-p_0.75.pth" &
+    # wget -O $comfy_path/models/animatediff_models/temporaldiff-v1-animatediff.safetensors "https://huggingface.co/CiaraRowles/TemporalDiff/blob/main/temporaldiff-v1-animatediff.safetensors"
+    # wget -O $comfy_path/models/animatediff_motion_lora/v2_lora_PanLeft.ckpt "https://huggingface.co/guoyww/animatediff/resolve/cd71ae134a27ec6008b968d6419952b0c0494cf2/v2_lora_PanLeft.ckpt" &
+    # wget -O $comfy_path/models/animatediff_motion_lora/v2_lora_PanRight.ckpt "https://huggingface.co/guoyww/animatediff/resolve/cd71ae134a27ec6008b968d6419952b0c0494cf2/v2_lora_PanRight.ckpt"
+    # wget -O $comfy_path/models/animatediff_motion_lora/v2_lora_TiltDown.ckpt "https://huggingface.co/guoyww/animatediff/resolve/cd71ae134a27ec6008b968d6419952b0c0494cf2/v2_lora_TiltDown.ckpt" &
+    # wget -O $comfy_path/models/animatediff_motion_lora/v2_lora_ZoomOut.safetensors "https://huggingface.co/guoyww/animatediff-motion-lora-zoom-out/resolve/main/diffusion_pytorch_model.safetensors"
+    # wget -O $comfy_path/models/controlnet/v3_sd15_sparsectrl_rgb.ckpt "https://huggingface.co/guoyww/animatediff/resolve/main/v3_sd15_sparsectrl_rgb.ckpt"
+
+    # wget -O $comfy_path/models/animatediff_models/AnimateLCM_sd15_t2v.ckpt "https://huggingface.co/wangfuyun/AnimateLCM/resolve/main/AnimateLCM_sd15_t2v.ckpt"
+    # wget -O $comfy_path/models/animatediff_motion_lora/AnimateLCM_sd15_t2v_lora.safetensors "https://huggingface.co/wangfuyun/AnimateLCM/resolve/main/AnimateLCM_sd15_t2v_lora.safetensors"
+    # wget -O $comfy_path/models/clip_vision/laion2B.safetensors "https://huggingface.co/laion/CLIP-ViT-H-14-laion2B-s32B-b79K/resolve/main/model.safetensors"
+    # axel -n 8 -o $comfy_path/models/animatediff_motion_lora/pxlpshr_shatter_400.safetensors "https://civitai.com/api/download/models/350715?type=Model&format=SafeTensor&token=dde65e385e7f360d4a29055d34bbac25"
+    # axel -n 8 -o $comfy_path/models/checkpoints/photon_lcm.safetensors "https://civitai.com/api/download/models/344398?type=Model&format=SafeTensor&size=pruned&fp=fp16&token=dde65e385e7f360d4a29055d34bbac25"
+
+    # ====> AnimateLCM
+    # mv $comfy_path/models/svd/svd.safetensors $comfy_path/models/checkpoints/svd.safetensors
+    # wget -O $comfy_path/models/ultralytics/yolov8x.pt https://huggingface.co/Ultralytics/YOLOv8/resolve/main/yolov8x.pt
+    # wget -O $comfy_path/models/animatediff_models/animatediff_lightning_8step_diffusers.safetensors https://huggingface.co/ByteDance/AnimateDiff-Lightning/resolve/main/animatediff_lightning_8step_diffusers.safetensors
+
+    # wget -O $comfy_path/models/animatediff_models/AnimateLCM_sd15_t2v.ckpt "https://huggingface.co/wangfuyun/AnimateLCM/resolve/main/AnimateLCM_sd15_t2v.ckpt"
+    # wget -O $comfy_path/models/animatediff_motion_lora/AnimateLCM_sd15_t2v_lora.safetensors "https://huggingface.co/wangfuyun/AnimateLCM/resolve/main/AnimateLCM_sd15_t2v_lora.safetensors"
+    # cp $comfy_path/models/animatediff_motion_lora/AnimateLCM_sd15_t2v_lora.safetensors $comfy_path/models/loras/AnimateLCM_sd15_t2v_lora.safetensors
+    # wget -O $comfy_path/models/clip_vision/laion2B.safetensors "https://huggingface.co/laion/CLIP-ViT-H-14-laion2B-s32B-b79K/resolve/main/model.safetensors"
+    # axel -n 8 -o $comfy_path/models/animatediff_motion_lora/pxlpshr_shatter_400.safetensors "https://civitai.com/api/download/models/350715?type=Model&format=SafeTensor&token=dde65e385e7f360d4a29055d34bbac25"
+    # axel -n 8 -o $comfy_path/models/checkpoints/photon_lcm.safetensors "https://civitai.com/api/download/models/344398?type=Model&format=SafeTensor&size=pruned&fp=fp16&token=dde65e385e7f360d4a29055d34bbac25"
+
+    # wget -O $comfy_path/models/animatediff_models/AnimateLCM-SVD-xt-1.1.safetensors "https://huggingface.co/wangfuyun/AnimateLCM-SVD-xt/resolve/main/AnimateLCM-SVD-xt-1.1.safetensors"
+    # wget -O $comfy_path/models/animatediff_models/AnimateLCM_sd15_i2v.ckpt "https://huggingface.co/wangfuyun/AnimateLCM-I2V/resolve/main/AnimateLCM_sd15_i2v.ckpt"
+    # wget -O $comfy_path/models/animatediff_motion_lora/AnimateLCM_sd15_i2v_lora.safetensors "https://huggingface.co/wangfuyun/AnimateLCM-I2V/resolve/main/AnimateLCM_sd15_i2v_lora.safetensors"
+    # cp $comfy_path/models/animatediff_motion_lora/AnimateLCM_sd15_i2v_lora.safetensors $comfy_path/models/loras/AnimateLCM_sd15_i2v_lora.safetensors
+    # mv $comfy_path/models/animatediff_models/AnimateLCM-SVD-xt-1.1.safetensors $comfy_path/models/checkpoints/AnimateLCM-SVD-xt-1.1.safetensors
+
     touch $installation_completed
     echo "Installation completed"
-else
-    sudo lsof -t -i :8188 | xargs kill -9
-    cd $comfy_path && python main.py --listen 0.0.0.0 &
-    echo "Installation completed."
 fi
