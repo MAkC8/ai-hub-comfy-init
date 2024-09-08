@@ -62,7 +62,8 @@ else
     git clone https://github.com/thecooltechguy/ComfyUI-Stable-Video-Diffusion $comfy_path/custom_nodes/ComfyUI-Image-Selector
     git clone https://github.com/neverbiasu/ComfyUI-SAM2.git $comfy_path/custom_nodes/ComfyUI-SAM2
     cd $comfy_path/custom_nodes/ComfyUI-SAM2 && pip install -r requirements.txt && cd $comfy_path/..
-    
+    git clone https://github.com/theUpsider/ComfyUI-Logic.git $comfy_path/custom_nodes/ComfyUI-Logic
+
     ### VHS & VFI
     git clone https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite.git $comfy_path/custom_nodes/ComfyUI-VideoHelperSuite
     cd $comfy_path/custom_nodes/ComfyUI-VideoHelperSuite && pip install -r requirements.txt && cd ../../..
