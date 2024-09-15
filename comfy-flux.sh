@@ -11,16 +11,16 @@ else
     sudo apt update && sudo apt install -y software-properties-common
     sudo add-apt-repository ppa:deadsnakes/ppa -y
     sudo apt update && sudo apt install -y software-properties-common
-    sudo apt update && sudo apt install -y python3.9 python3.9-venv python3.9-distutils
-    curl -sS https://bootstrap.pypa.io/get-pip.py | sudo python3.9
-    sudo ln -s /usr/bin/python3.9 /usr/bin/python
+    sudo apt update && sudo apt install -y python3.10 python3.10-venv python3.10-distutils
+    curl -sS https://bootstrap.pypa.io/get-pip.py | sudo python3.10
+    sudo ln -s /usr/bin/python3.10 /usr/bin/python
     pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu121
     sudo apt-get update
     sudo apt-get install -y build-essential cmake libgl1-mesa-glx python3-dev axel lsof unzip
     pip install --upgrade pip setuptools wheel
     dpkg -L python3-dev | grep Python.h
-    sudo apt-get install -y python3.9-dev
-    export CFLAGS="-I/usr/include/python3.9"
+    sudo apt-get install -y python3.10-dev
+    export CFLAGS="-I/usr/include/python3.10"
     pip install insightface
 
     rm -rf $comfy_path
@@ -138,7 +138,7 @@ else
     wget -O $comfy_path/models/xlabs/controlnets/flux-canny-controlnet-v3.safetensors "https://huggingface.co/XLabs-AI/flux-controlnet-collections/resolve/main/flux-canny-controlnet-v3.safetensors"
     wget -O $comfy_path/models/xlabs/controlnets/flux-depth-controlnet-v3.safetensors "https://huggingface.co/XLabs-AI/flux-controlnet-collections/resolve/main/flux-depth-controlnet-v3.safetensors"
     wget -O $comfy_path/models/xlabs/loras/realism_lora.safetensors "https://huggingface.co/XLabs-AI/flux-lora-collection/resolve/main/realism_lora.safetensors"
-    
+
     touch $installation_completed
     echo "Installation completed"
 fi
